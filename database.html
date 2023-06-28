@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Menu Bar</title>
+  
+</head>
+<body>
+  <ul>
+    <li><a href="index.html">Daily Weather</a></li>
+    <li><a href="weekly.html">Weekly Weather</a></li>
+    <li>
+      <a href="#">Radars ▾</a>
+      <ul class="dropdown">
+        <li><a href="radar.html">World Radar</a></li>
+        <li><a href="tide.html">Tide Radar</a></li>
+        <li><a href="uv.html">UV Radar</a></li>
+      </ul>
+      </li>
+      <li><a href="world.html">World Weather</a></li>
+      <li><a href="database.html">Questions</a></li>
+ </ul>
+</body>
+</html>
+<style>
+ 
+  * {
+ padding: 0;
+ margin: 0;
+ font-family: rockwell;
+ }
+ ul {
+ list-style: none;
+ background: #375158;
+ }
+ ul li {
+ display: inline-block;
+ position: relative;
+ }
+ ul li a {
+ display: block;
+ padding: 20px 25px;
+ color: #FFF;
+ text-decoration: none;
+ text-align: center;
+ font-size: 20px;
+ }
+ ul li ul.dropdown li {
+ display: block;
+ }
+ ul li ul.dropdown {
+ width: 100%;
+ background: #375158;
+ position: absolute;
+ z-index: 999;
+ display: none;
+ }
+ ul li a:hover {
+ background: #375158;
+ }
+ ul li:hover ul.dropdown {
+ display: block;
+ }
+ </style>
+<br> <br>
+
+  <title>Database</title>
+
+  <style>
+    body{text-align: center;}
+    #enterDetails {float: left; width: 50%; color: #375158;}
+    #findDetails {float: left; width: 50%; color: #375158;}
+    input {width: 120px;}
+  </style>
+</head>
+<body>
+  <div id="enterDetails">
+    <h1>Enter Details</h1> <br>
+    <h4>City</h4>
+    <input id="enterCity" type="text">
+    <br><br>
+    <h4>Country</h4>
+    <input id="enterCountry" type="text">
+    <br><br>
+    <h4>Questions</h4>
+    <input id="enterQuestions" type="text"> <br><br>
+
+    <button id="insert">INSERT</button>
+    <button id="update">UPDATE</button>
+    <button id="remove">REMOVE</button> <br><br>
+</div>
+
+<div id="findDetails">
+  <h1>Find by Detail </h1> <br>
+  <h4>City</h4>
+  <input id="findCity" type="text"> <br> <br>
+  <button id="find">FIND</button>
+  <br> <br>
+  <h3 id="findCountry" type="text"></h3>
+  <br>
+  <h3 id="findQuestions" type="text"></h3> <br><br>
+
+
+</div>
+
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyAG7bDTjhvckBUJ6G-Fxk4zG3HJQPavD74",
+    authDomain: "weather-database-c0ba9.firebaseapp.com",
+    databaseURL: "https://weather-database-c0ba9-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "weather-database-c0ba9",
+    storageBucket: "weather-database-c0ba9.appspot.com",
+    messagingSenderId: "245784926821",
+    appId: "1:245784926821:web:a9ab7ec53f3ae34954c48c"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+
+  import {getDatabase, set, get, update, remove, ref, child} 
+  from "https://www.gstatic.com/firebasejs/9.22.2/firebase-database.js"
+
+  const db = getDatabase();
+
+  var enterCity = document.querySelector("#enterCity");
+  var enterCountry = document.querySelector("#enterCountry");
+  var enterQuestions = document.querySelector("#enterQuestions");
+  var findCity = document.querySelector("#findCity");
+  var findCountry = document.querySelector("#findCountry");
+  var findQuestions = document.querySelector("#findQuestions");
+
+  var insertBtn = document.querySelector("#insert");
+  var updateBtn = document.querySelector("#update");
+  var removeBtn = document.querySelector("#remove");
+  var findBtn = document.querySelector ("#find");
+
+
+  function InsertData() {
+    set(ref(db, "People/" + enterCity.value), {
+      Country: enterCountry.value,
+      City: enterCity.value,
+      Questions: enterQuestions.value 
+    })
+    .then(()=>{
+      alert("Data added succesfully!")
+    })
+    .catch((error)=>{
+      alert(error)
+      }) 
+  
+    }
+
+  function FindData() {
+    const dbref = ref(db);
+
+    get(child(dbref, "People/" + findCity.value))
+    .then((snapshot)=>{
+      if (snapshot.exists()) {
+        findCountry.innerHTML = "Country: " + snapshot.val().Country;
+        findQuestions.innerHTML = "Questions: " + snapshot.val().Questions;
+      } else {
+        alert("No data found");
+      }
+    })
+    .catch((error)=>{
+    alert(error)   
+    }) 
+    
+  }
+
+  function UpdateData() {
+    update(ref(db, "People/" + enterCity.value), {
+      Country: enterCountry.value,
+      Questions: enterQuestions.value 
+    })
+    .then(()=>{
+      alert("Data updated successfully!");
+    })
+    .catch((error)=>{
+      alert(error);
+    });
+    
+  }
+
+  function RemoveData() {
+    remove(ref(db, "People/" + enterCity.value))
+    .then(()=>{
+      alert ("Data removed successfully")
+    })
+    .catch((error)=>{
+      alert(error);
+    });
+    
+  }
+
+  insertBtn.addEventListener('click', InsertData);
+  removeBtn.addEventListener('click', RemoveData);
+  updateBtn.addEventListener('click', UpdateData);
+  findBtn.addEventListener('click', FindData);
+
+</script>
+
+
+<style>
+  body {background-image: url("sky.jpeg");}
+  body {background-image: url(mtt.jpeg); background-repeat: no-repeat; background-size: cover; 
+  text-align: center; background-attachment: fixed;}
+ </style>
+
+</body>
+</html>

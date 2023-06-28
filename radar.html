@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>nav bar</title>
+
+</head>
+<body>
+  <ul>
+    <li><a href="index.html">Daily Weather</a></li>
+    <li><a href="weekly.html">Weekly Weather</a></li>
+    <li>
+      <a href="#">Radars ▾</a>
+      <ul class="dropdown">
+        <li><a href="radar.html">World Radar</a></li>
+        <li><a href="tide.html">Tide Radar</a></li>
+        <li><a href="uv.html">UV Radar</a></li>
+      </ul>
+      </li>
+      <li><a href="world.html">World Weather</a></li>
+      <li><a href="database.html">Questions</a></li>
+ </ul>
+</body>
+</html>
+
+<img src="image.jpg" alt="">
+
+<style>
+    * {
+    padding: 0;
+    margin: 0;
+    font-family: rockwell;
+    }
+    ul {
+    list-style: none;
+    background: #375158;
+    }
+    ul li {
+    display: inline-block;
+    position: relative;
+    }
+    ul li a {
+    display: block;
+    padding: 20px 25px;
+    color: #FFF;
+    text-decoration: none;
+    text-align: center;
+    font-size: 20px;
+    }
+    ul li ul.dropdown li {
+    display: block;
+    }
+    ul li ul.dropdown {
+    width: 100%;
+    background: #375158;
+    position: absolute;
+    z-index: 999;
+    display: none;
+    }
+    ul li a:hover {
+    background: #375158;
+    }
+    ul li:hover ul.dropdown {
+    display: block;
+    }
+
+   div {text-align: center; font-size: xx-large; font-weight: 900;}
+    </style>
+
+<div>World Radar</div>
+
+<iframe width="750" height="550" src="https://embed.windy.com/embed2.html?lat=-36.851&lon=174.768&detailLat=-36.851&detailLon=174.768&width=650&height=450&zoom=5&level=surface&overlay=wind&product=ecmwf&menu=&message=&marker=&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1" frameborder="0"></iframe>
+
+<style>
+  body {background-image: url("sky.jpeg");}
+  body {background-image: url(mtt.jpeg); background-repeat: no-repeat; background-size: cover; 
+  text-align: center; background-attachment: fixed;}
+  </style>
+
+<h2>Click 'Wind' on the right hand-side of your computer to explore further with this radar.</h2>
+
+</body>
+</html>
